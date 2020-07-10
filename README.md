@@ -63,7 +63,7 @@ Again, you have to store the object in Aws Secrets Manager using a Json format, 
 
 ### IMPORTANT ###
 
-Aws section must be declared in appsettings.json like this:
+For Aws credentials, the section must be declared in appsettings.json **like this**:
 
 ```
 "Aws": {
