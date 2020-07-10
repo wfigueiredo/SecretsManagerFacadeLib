@@ -27,6 +27,17 @@ public SqsClient(ICredentialsFacade<AwsCredentials> credentialsFacade)
 var awsCredentials = _credentialsFacade.GetCredentials();
 ```
 
+Of course: you have to store the credentials in Aws Secrets Manager in a Json format, for example:  
+
+```
+{
+  "accountid": "YOUR-ACCOUNT-ID",
+  "accesskey": "YOUR-ACCESS-KEY",
+  "secretkey": "YOUR-SECRET-KEY",
+  "region": "YOUR-REGION-ID"
+}
+```
+
 
 **IMPORTANT:**
 
