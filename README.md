@@ -23,11 +23,12 @@ public SqsClient(ICredentialsFacade<AwsCredentials> credentialsFacade)
 
 **3. Retrieve the desired credentials**
 
+### For AwsCredentials ###
 ```
 var awsCredentials = _credentialsFacade.GetCredentials();
 ```
 
-Of course: you have to store the credentials in Aws Secrets Manager in a Json format, for example:  
+Of course: you have to store the credentials in Aws Secrets Manager using a Json format, for example:  
 
 ```
 {
@@ -38,8 +39,29 @@ Of course: you have to store the credentials in Aws Secrets Manager in a Json fo
 }
 ```
 
+### For string-based properties ###
 
-**IMPORTANT:**
+```
+var mySecretValue = _credentialsFacade.GetStringProperty("YOUR-SECRET-ID");
+```
+
+### For object-based properties ###
+
+```
+var mySecretValue = _credentialsFacade.GetObjectProperty<YourObjectType>("YOUR-SECRET-ID");
+```
+
+Again, you have to store the object in Aws Secrets Manager using a Json format, for example:
+
+```
+{
+  "username": "YOUR-USERNAME",
+  "password": "YOUR-PASSWORD"
+}
+```
+
+
+### IMPORTANT ###
 
 Aws section must be declared in appsettings.json like this:
 
