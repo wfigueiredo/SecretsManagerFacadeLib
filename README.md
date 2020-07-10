@@ -2,7 +2,7 @@
 Convenience lib that offers support to retrieve Aws Credentials and Aws Secrets Manager stored properties.  
 It uses client side caching (supported by official Aws cache lib) to prevent further http calls.
 
-##Usage
+### Usage ###
 
 **1. Declare components in Startup.cs :**
 
