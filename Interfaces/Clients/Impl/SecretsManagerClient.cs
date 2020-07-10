@@ -16,10 +16,11 @@ namespace SecretsManagerFacadeLib.Interfaces.Clients.Impl
         private readonly IAmazonSecretsManager _client;
         private readonly SecretsManagerCache _cache;
 
-        public SecretsManagerClient(ILogger<SecretsManagerClient> logger)
+        public SecretsManagerClient(string awsRegion, ILogger<SecretsManagerClient> logger)
         {
             _logger = logger;
-            _client = new AmazonSecretsManagerClient(RegionEndpoint.SAEast1);
+            var regionEndpoint = RegionEndpoint.GetBySystemName(awsRegion);
+            _client = new AmazonSecretsManagerClient(regionEndpoint);
             _cache = new SecretsManagerCache(_client);
         }
 
