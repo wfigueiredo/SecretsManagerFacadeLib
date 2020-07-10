@@ -7,7 +7,12 @@ It uses client side caching (supported by official Aws cache lib) to prevent fur
 **1. Declare components in Startup.cs :**
 
 ```
-services.AddSingleton<ISecretsManagerClient, SecretsManagerClient>();
+services.AddSingleton<ISecretsManagerClient, SecretsManagerClient>(service =>
+{
+    var region = "YOUR-AWS-REGION-ID";
+    var logger = loggerFactory.CreateLogger<SecretsManagerClient>();
+    return new SecretsManagerClient(region, logger);
+});  
 services.AddSingleton<ISecretsManagerFacade, SecretsManagerFacade>();
 services.AddSingleton<ICredentialsFacade<AwsCredentials>, AWSCredentialsFacade>();
 ```
@@ -39,19 +44,42 @@ Of course: you have to store the credentials in Aws Secrets Manager using a Json
 }
 ```
 
-### For string-based properties ###
+### For general string-based properties ###
+
+Example: to retrieve a hypothetical ApiKey value (stored in plain string in Secrets Manager), you'll want your appsettings.json like this:
 
 ```
-var mySecretValue = _credentialsFacade.GetStringProperty("YOUR-SECRET-ID");
+"MySection": {
+    "SecretsManager": "YOUR-SECRET-ID"
+}
 ```
 
-### For object-based properties ###
+Then call it in your code:
 
 ```
-var mySecretValue = _credentialsFacade.GetObjectProperty<YourObjectType>("YOUR-SECRET-ID");
+var MySection = _configuration.GetSection("MySection");
+var SecretId = MySection["SecretsManager"];
+var ApiKey = _credentialsFacade.GetStringProperty(SecretId);
 ```
 
-Again, you have to store the object in Aws Secrets Manager using a Json format, for example:
+### For general object-based properties ###
+
+Example: to retrieve a hypothetical object with username and password properties, you'll want your appsettings.json like this:
+
+```
+"Credentials": {
+    "SecretsManager": "YOUR-SECRET-ID"
+}
+```
+
+Then call it in your code:
+```
+var MyCredentialsSection = _configuration.GetSection("Credentials");
+var SecretId = MySection["SecretsManager"];
+var mySecretValue = _credentialsFacade.GetObjectProperty<T>(SecretId);
+```
+
+Again, you have to store the object in Aws Secrets Manager using a Json format. In this case:
 
 ```
 {
@@ -71,7 +99,7 @@ For Aws credentials, the section must be declared in appsettings.json **like thi
 }
 ```
 
-It works parsing hardcoded values too, but is strongly suggested that you use Secrets Manager stored values:
+It works parsing hardcoded values too:
 
 ```
 "Aws": {
@@ -81,3 +109,4 @@ It works parsing hardcoded values too, but is strongly suggested that you use Se
     "Region": "YOUR-REGION-ID"
 }
 ```
+although, for security reasons, is strongly suggested that you use Secrets Manager stored property values.
