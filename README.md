@@ -7,12 +7,8 @@ It uses client side caching (supported by official Aws cache lib) to prevent fur
 **1. Declare components in Startup.cs :**
 
 ```
-services.AddSingleton<ISecretsManagerClient, SecretsManagerClient>(service =>
-{
-    var region = "YOUR-AWS-REGION-ID";
-    var logger = loggerFactory.CreateLogger<SecretsManagerClient>();
-    return new SecretsManagerClient(region, logger);
-});  
+services.AddSingleton(RegionEndpoint.SAEast1);  // inject the deseired aws region
+services.AddSingleton<ISecretsManagerClient, SecretsManagerClient>();  
 services.AddSingleton<ISecretsManagerFacade, SecretsManagerFacade>();
 services.AddSingleton<ICredentialsFacade<AwsCredentials>, AWSCredentialsFacade>();
 ```
