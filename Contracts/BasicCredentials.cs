@@ -8,10 +8,10 @@ namespace SecretsManagerFacadeLib.Contracts
     [DataContract]
     public class BasicCredentials
     {
-        [DataMember(Name = "username")]
+        [DataMember(Name = "Username")]
         public string Username { get; set; }
 
-        [DataMember(Name = "password")]
+        [DataMember(Name = "Password")]
         public string Password { get; set; }
     }
 }

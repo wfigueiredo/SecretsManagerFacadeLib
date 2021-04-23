@@ -8,16 +8,16 @@ namespace SecretsManagerFacadeLib.Contracts
     [DataContract]
     public class AwsCredentials
     {
-        [DataMember(Name = "accountid")]
+        [DataMember(Name = "AccountId")]
         public string AccountId { get; set; }
 
-        [DataMember(Name = "accesskey")]
+        [DataMember(Name = "AccessKey")]
         public string AccessKey { get; set; }
 
-        [DataMember(Name = "secretkey")]
+        [DataMember(Name = "SecretKey")]
         public string SecretKey { get; set; }
 
-        [DataMember(Name = "region")]
+        [DataMember(Name = "Region")]
         public string Region { get; set; }
     }
 }

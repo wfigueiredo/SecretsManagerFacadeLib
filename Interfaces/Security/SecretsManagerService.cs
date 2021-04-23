@@ -6,11 +6,17 @@ using System.Text;
 
 namespace SecretsManagerFacadeLib.Interfaces.Impl
 {
-    public class SecretsManagerFacade : ISecretsManagerFacade
+    public interface ISecretsManagerService
+    {
+        string GetStringProperty(string secretName);
+        T GetObjectProperty<T>(string secretName);
+    }
+
+    public class SecretsManagerService : ISecretsManagerService
     {
         private readonly ISecretsManagerClient _client;
 
-        public SecretsManagerFacade(ISecretsManagerClient client)
+        public SecretsManagerService(ISecretsManagerClient client)
         {
             _client = client;
         }
